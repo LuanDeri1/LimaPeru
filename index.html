@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explore Lima | The Heart of Peru</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f4f7;
+      --bg-soft: #ffffff;
+      --text: #111827;
+      --muted: #4b5563;
+      --accent: #ff6b35;
+      --accent-2: #4cc9f0;
+      --accent-3: #7f5af0;
+      --card: rgba(255, 255, 255, 0.85);
+      --shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+      --glass: rgba(15, 23, 42, 0.5);
+      --nav-grad: linear-gradient(90deg, rgba(255, 107, 53, 0.9), rgba(76, 201, 240, 0.9), rgba(127, 90, 240, 0.9));
+    }
+
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0b0f1d;
+      --bg-soft: #121729;
+      --text: #f9fafb;
+      --muted: #cbd5f5;
+      --card: rgba(18, 23, 41, 0.85);
+      --shadow: 0 24px 60px rgba(15, 23, 42, 0.45);
+      --glass: rgba(8, 10, 18, 0.75);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      scroll-behavior: smooth;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .animated-background {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background: radial-gradient(circle at top, rgba(255, 191, 105, 0.35), transparent 60%),
+        radial-gradient(circle at 20% 20%, rgba(76, 201, 240, 0.35), transparent 50%),
+        radial-gradient(circle at 80% 10%, rgba(127, 90, 240, 0.35), transparent 55%),
+        linear-gradient(120deg, #fef3c7, #c7d2fe, #bae6fd);
+      background-size: 200% 200%;
+      animation: gradientShift 18s ease infinite;
+      transition: background 0.6s ease;
+    }
+
+    [data-theme="dark"] .animated-background {
+      background: radial-gradient(circle at top, rgba(32, 64, 110, 0.45), transparent 60%),
+        radial-gradient(circle at 30% 20%, rgba(34, 197, 94, 0.25), transparent 50%),
+        radial-gradient(circle at 70% 15%, rgba(99, 102, 241, 0.4), transparent 60%),
+        linear-gradient(120deg, #05070f, #0b0f1d, #111827);
+    }
+
+    .skyline-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900'%3E%3Crect width='1600' height='900' fill='none'/%3E%3Cg fill='%23000000' fill-opacity='0.15'%3E%3Crect x='0' y='620' width='140' height='280'/%3E%3Crect x='170' y='540' width='180' height='360'/%3E%3Crect x='400' y='590' width='160' height='310'/%3E%3Crect x='600' y='520' width='200' height='380'/%3E%3Crect x='840' y='580' width='190' height='320'/%3E%3Crect x='1080' y='500' width='210' height='400'/%3E%3Crect x='1340' y='560' width='180' height='340'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: bottom;
+      opacity: 0.6;
+      animation: floatCity 20s ease-in-out infinite;
+    }
+
+    [data-theme="dark"] .skyline-layer {
+      opacity: 0.75;
+      filter: hue-rotate(10deg) brightness(0.9);
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes floatCity {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(14px);
+    }
+
+    header.scrolled {
+      background: var(--nav-grad);
+      box-shadow: var(--shadow);
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 6vw;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ff6b35, #fca311, #4cc9f0);
+      display: grid;
+      place-items: center;
+      color: #0b0f1d;
+      font-weight: 700;
+      font-family: "Playfair Display", serif;
+    }
+
+    nav ul {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+    }
+
+    nav a {
+      font-weight: 500;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #fff;
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after,
+    nav a:focus::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .button {
+      border: none;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .button-primary {
+      background: #fff;
+      color: #0b0f1d;
+    }
+
+    .button-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.25);
+    }
+
+    .button-ghost {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .button-ghost:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 96px;
+      padding-bottom: 120px;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 120px 6vw 80px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.1));
+      z-index: 0;
+    }
+
+    .hero-carousel {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-size: cover;
+      background-position: center;
+      animation: heroSlides 20s infinite;
+      filter: saturate(1.1) brightness(0.9);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      color: #fff;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 28px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .hero-card {
+      position: absolute;
+      right: 6vw;
+      bottom: 80px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      color: #fff;
+      max-width: 340px;
+    }
+
+    .hero-card h3 {
+      margin: 0 0 12px;
+      font-family: "Playfair Display", serif;
+      font-size: 1.4rem;
+    }
+
+    section {
+      padding: 0 6vw;
+    }
+
+    .section-title {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    .section-title h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      margin: 0;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 680px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(15, 23, 42, 0.25);
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-family: "Playfair Display", serif;
+    }
+
+    .card .icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.25), rgba(76, 201, 240, 0.3));
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+
+    .card-details {
+      display: none;
+      margin-top: 16px;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .card.expanded .card-details {
+      display: block;
+    }
+
+    .map-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      align-items: start;
+    }
+
+    .map-embed {
+      width: 100%;
+      border: none;
+      border-radius: 24px;
+      min-height: 360px;
+      box-shadow: var(--shadow);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .chip {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.15);
+      background: var(--bg-soft);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .chip.active,
+    .chip:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .tour-card {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+    }
+
+    .calendar .day {
+      padding: 16px;
+      border-radius: 16px;
+      background: var(--bg-soft);
+      cursor: pointer;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .calendar .day:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .blog-card {
+      padding: 24px;
+      border-radius: 20px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .blog-card .tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(76, 201, 240, 0.2);
+      font-size: 0.75rem;
+    }
+
+    .social-share {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-share button {
+      border: none;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.1);
+      cursor: pointer;
+    }
+
+    .testimonials {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonial-track {
+      display: flex;
+      gap: 24px;
+      transition: transform 0.5s ease;
+    }
+
+    .testimonial {
+      min-width: 280px;
+      background: var(--card);
+      padding: 24px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .testimonial img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 12px;
+    }
+
+    .carousel-controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+    }
+
+    footer {
+      position: sticky;
+      bottom: 0;
+      background: var(--glass);
+      color: #fff;
+      padding: 24px 6vw;
+      backdrop-filter: blur(16px);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+
+    .footer-grid h4 {
+      margin-top: 0;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-map {
+      border-radius: 18px;
+      overflow: hidden;
+      border: none;
+      width: 100%;
+      min-height: 180px;
+    }
+
+    .modal,
+    .overlay {
+      position: fixed;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .overlay {
+      background: rgba(15, 23, 42, 0.7);
+      z-index: 20;
+    }
+
+    .modal {
+      z-index: 30;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .modal-content {
+      background: var(--bg-soft);
+      padding: 32px;
+      border-radius: 24px;
+      width: min(420px, 100%);
+      box-shadow: var(--shadow);
+      color: var(--text);
+    }
+
+    .modal.active,
+    .overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      font-family: "Playfair Display", serif;
+    }
+
+    .modal-content label {
+      display: block;
+      font-size: 0.9rem;
+      margin: 12px 0 6px;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(15, 23, 42, 0.2);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .modal-actions .button {
+      flex: 1 1 auto;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toggle {
+      width: 52px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 999px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .toggle::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform 0.3s ease;
+    }
+
+    [data-theme="dark"] .toggle::after {
+      transform: translateX(22px);
+      background: #fca311;
+    }
+
+    @keyframes heroSlides {
+      0% {
+        background-image: linear-gradient(120deg, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.2)),
+          url("https://images.unsplash.com/photo-1521747116042-5a810fda9664?auto=format&fit=crop&w=1600&q=80");
+      }
+      33% {
+        background-image: linear-gradient(120deg, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.2)),
+          url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80");
+      }
+      66% {
+        background-image: linear-gradient(120deg, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.2)),
+          url("https://images.unsplash.com/photo-1494475673543-6a6a27143b14?auto=format&fit=crop&w=1600&q=80");
+      }
+      100% {
+        background-image: linear-gradient(120deg, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.2)),
+          url("https://images.unsplash.com/photo-1521747116042-5a810fda9664?auto=format&fit=crop&w=1600&q=80");
+      }
+    }
+
+    @media (max-width: 960px) {
+      nav ul {
+        display: none;
+      }
+
+      .hero-card {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        margin-top: 24px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-container {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .hero {
+        padding-top: 140px;
+      }
+
+      footer {
+        position: relative;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="animated-background"></div>
+  <div class="skyline-layer"></div>
+
+  <header id="header">
+    <div class="nav-container">
+      <div class="logo">
+        <div class="logo-mark">LP</div>
+        Explore Lima
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Lima</a></li>
+          <li><a href="#attractions">Attractions</a></li>
+          <li><a href="#tours">Tours</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <div class="toggle" id="themeToggle" title="Toggle night mode"></div>
+        <button class="button button-primary" id="authButton">Join Us</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-carousel" aria-hidden="true"></div>
+      <div class="hero-content">
+        <h1>Explore Lima: The Heart of Peru</h1>
+        <p>
+          Discover the soul of Lima through curated cultural journeys, iconic coastal views, and
+          historic landmarks. Plan your unforgettable trip with personalized itineraries and insider
+          recommendations.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#tours">Plan Your Visit</a>
+          <a class="button button-ghost" href="#attractions">See Top Spots</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>Today in Lima</h3>
+        <p>Golden hour in Miraflores begins at 5:45 PM. Enjoy sunset strolls with our guided boardwalk tour.</p>
+        <button class="button button-primary" style="width: 100%;">Reserve Sunset Tour</button>
+      </div>
+    </section>
+
+    <section id="about" class="fade-in">
+      <div class="section-title">
+        <h2>A City of History, Ocean, and Flavor</h2>
+        <p>
+          Lima blends colonial charm with modern energy. Explore plazas, vibrant markets, and world-class cuisine
+          while enjoying sweeping Pacific views. Our experiences connect you with the real Lima.
+        </p>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="icon">🏛️</div>
+          <h3>Historic Center</h3>
+          <p>UNESCO heritage architecture, ornate balconies, and centuries of culture.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🌊</div>
+          <h3>Pacific Coast</h3>
+          <p>Surf-ready beaches and oceanfront parks perfect for sunsets.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🍲</div>
+          <h3>Gastronomy</h3>
+          <p>Sample ceviche, anticuchos, and award-winning fusion cuisine.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="attractions" class="fade-in">
+      <div class="section-title">
+        <h2>Featured Attractions</h2>
+        <p>Tap a card to see opening hours, locations, and book a personalized tour.</p>
+      </div>
+      <div class="card-grid">
+        <button class="card attraction" type="button">
+          <div class="icon">🏰</div>
+          <h3>Plaza Mayor de Lima</h3>
+          <p>The historic heart of the city with colonial-era grandeur.</p>
+          <div class="card-details">
+            <strong>Location:</strong> Centro Historico<br />
+            <strong>Hours:</strong> 9 AM - 8 PM<br />
+            <strong>Tour:</strong> Heritage Walk &amp; Cathedral Visit
+          </div>
+        </button>
+        <button class="card attraction" type="button">
+          <div class="icon">🖼️</div>
+          <h3>Museo Larco</h3>
+          <p>World-renowned pre-Columbian art collections.</p>
+          <div class="card-details">
+            <strong>Location:</strong> Pueblo Libre<br />
+            <strong>Hours:</strong> 10 AM - 7 PM<br />
+            <strong>Tour:</strong> Curator-led Museum Experience
+          </div>
+        </button>
+        <button class="card attraction" type="button">
+          <div class="icon">🦁</div>
+          <h3>Parque de las Leyendas</h3>
+          <p>Peru’s largest zoo and botanical park.</p>
+          <div class="card-details">
+            <strong>Location:</strong> San Miguel<br />
+            <strong>Hours:</strong> 9 AM - 5 PM<br />
+            <strong>Tour:</strong> Family Adventure Pass
+          </div>
+        </button>
+        <button class="card attraction" type="button">
+          <div class="icon">🌅</div>
+          <h3>Miraflores Boardwalk</h3>
+          <p>Coastal cliffs, parks, and sweeping ocean views.</p>
+          <div class="card-details">
+            <strong>Location:</strong> Miraflores<br />
+            <strong>Hours:</strong> Open 24/7<br />
+            <strong>Tour:</strong> Sunset Bike Ride
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <section id="tours" class="fade-in">
+      <div class="section-title">
+        <h2>Curated Tours & Interactive Map</h2>
+        <p>Choose a tour that matches your pace and interests, then explore it on the map.</p>
+      </div>
+      <div class="map-section">
+        <div>
+          <div class="filters">
+            <button class="chip active" data-filter="all">All Tours</button>
+            <button class="chip" data-filter="cultural">Cultural</button>
+            <button class="chip" data-filter="beach">Beach</button>
+            <button class="chip" data-filter="adventure">Adventure</button>
+            <button class="chip" data-filter="premium">Premium</button>
+          </div>
+          <div class="card-grid" id="tourCards">
+            <div class="tour-card" data-type="cultural">
+              <strong>Colonial Lima Heritage Tour</strong>
+              <span>From $45 · 3 hours</span>
+              <button class="button button-primary">Book Now</button>
+            </div>
+            <div class="tour-card" data-type="beach">
+              <strong>Miraflores Coastal Escape</strong>
+              <span>From $35 · 2 hours</span>
+              <button class="button button-primary">Book Now</button>
+            </div>
+            <div class="tour-card" data-type="adventure">
+              <strong>Paracas Day Adventure</strong>
+              <span>From $110 · Full day</span>
+              <button class="button button-primary">Book Now</button>
+            </div>
+            <div class="tour-card" data-type="premium">
+              <strong>Luxury Gastronomy Night</strong>
+              <span>From $160 · Evening</span>
+              <button class="button button-primary">Book Now</button>
+            </div>
+          </div>
+        </div>
+        <iframe
+          class="map-embed"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d249017.01756304357!2d-77.16569884217303!3d-12.047274178253753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8bd442e52d5%3A0x59a0b05d4a0d280b!2sLima%2C%20Peru!5e0!3m2!1sen!2sus!4v1698796718000!5m2!1sen!2sus"
+          title="Lima Interactive Map"
+        ></iframe>
+      </div>
+    </section>
+
+    <section id="events" class="fade-in">
+      <div class="section-title">
+        <h2>Festival & Event Calendar</h2>
+        <p>Click on a date to explore upcoming celebrations, food festivals, and cultural experiences.</p>
+      </div>
+      <div class="calendar" id="calendar">
+        <div class="day" data-event="Inti Raymi: Cultural performances and parades at Plaza Mayor.">Jun 24</div>
+        <div class="day" data-event="Lima Gastronomy Week: Chef-led tastings across Miraflores.">Jul 10</div>
+        <div class="day" data-event="Independence Day: Fireworks and concerts along the coast.">Jul 28</div>
+        <div class="day" data-event="Lima Art Night: Galleries open late with live music.">Aug 15</div>
+        <div class="day" data-event="Spring Flower Festival in Barranco.">Sep 9</div>
+        <div class="day" data-event="Peruvian Dance Weekend with workshops.">Oct 5</div>
+      </div>
+    </section>
+
+    <section id="blog" class="fade-in">
+      <div class="section-title">
+        <h2>Local Insights & Travel Stories</h2>
+        <p>Discover hidden gems, culinary itineraries, and day-by-day guides curated by local experts.</p>
+      </div>
+      <div class="blog-grid">
+        <article class="blog-card">
+          <h3>Hidden Gems in Lima</h3>
+          <p>From secret miradores to artisan cafés, see Lima like a local.</p>
+          <div class="tags">
+            <span class="tag">Neighborhoods</span>
+            <span class="tag">Culture</span>
+          </div>
+          <div class="social-share">
+            <button>Instagram</button>
+            <button>Facebook</button>
+            <button>Twitter</button>
+          </div>
+        </article>
+        <article class="blog-card">
+          <h3>Lima Food Guide</h3>
+          <p>Plan a culinary adventure with ceviche, nikkei, and dessert stops.</p>
+          <div class="tags">
+            <span class="tag">Cuisine</span>
+            <span class="tag">Nightlife</span>
+          </div>
+          <div class="social-share">
+            <button>Instagram</button>
+            <button>Facebook</button>
+            <button>Twitter</button>
+          </div>
+        </article>
+        <article class="blog-card">
+          <h3>Top 5 Museums to Visit</h3>
+          <p>Explore art, history, and archaeology across Lima’s best exhibits.</p>
+          <div class="tags">
+            <span class="tag">Museums</span>
+            <span class="tag">History</span>
+          </div>
+          <div class="social-share">
+            <button>Instagram</button>
+            <button>Facebook</button>
+            <button>Twitter</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="testimonials" class="fade-in">
+      <div class="section-title">
+        <h2>Traveler Stories</h2>
+        <p>Our guests share their most memorable moments exploring Lima.</p>
+      </div>
+      <div class="testimonials">
+        <div class="testimonial-track" id="testimonialTrack">
+          <div class="testimonial">
+            <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=200&q=80" alt="Traveler" loading="lazy" />
+            <strong>Maria G.</strong>
+            <p>“The sunset bike tour was unforgettable. The team curated the perfect route.”</p>
+          </div>
+          <div class="testimonial">
+            <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80" alt="Traveler" loading="lazy" />
+            <strong>James L.</strong>
+            <p>“Loved the gastronomy night. Every stop was authentic and delicious.”</p>
+          </div>
+          <div class="testimonial">
+            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80" alt="Traveler" loading="lazy" />
+            <strong>Camila R.</strong>
+            <p>“Our guide was so knowledgeable about Lima’s history. Highly recommend!”</p>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button class="button button-ghost" id="prevTestimonial">Prev</button>
+          <button class="button button-ghost" id="nextTestimonial">Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <div class="footer-grid">
+      <div>
+        <h4>Contact Explore Lima</h4>
+        <p>Av. Malecón 123, Miraflores, Lima, Peru</p>
+        <p>Phone: +51 1 555 2024</p>
+        <p>Email: hola@explorelima.pe</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <div class="footer-links">
+          <a href="#about">About Us</a>
+          <a href="#attractions">Attractions</a>
+          <a href="#tours">Tours</a>
+          <a href="#blog">Blog</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Policies</h4>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Accessibility</a>
+          <a href="#">Careers</a>
+        </div>
+      </div>
+      <div>
+        <h4>Visit Our Office</h4>
+        <iframe
+          class="footer-map"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d249017.01756304357!2d-77.16569884217303!3d-12.047274178253753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8bd442e52d5%3A0x59a0b05d4a0d280b!2sLima%2C%20Peru!5e0!3m2!1sen!2sus!4v1698796718000!5m2!1sen!2sus"
+          title="Explore Lima Office"
+        ></iframe>
+      </div>
+    </div>
+  </footer>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="modal" id="authModal" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <h3>Welcome to Explore Lima</h3>
+      <p>Sign in for personalized tours, exclusive offers, and curated events.</p>
+      <label for="nameInput">Name</label>
+      <input id="nameInput" type="text" placeholder="Your name" />
+      <label for="emailInput">Email</label>
+      <input id="emailInput" type="email" placeholder="you@email.com" />
+      <label for="passwordInput">Password</label>
+      <input id="passwordInput" type="password" placeholder="Password" />
+      <div class="modal-actions">
+        <button class="button button-primary" id="loginSubmit">Sign In</button>
+        <button class="button button-ghost" id="signupButton">Sign Up</button>
+        <button class="button button-ghost">Continue with Google</button>
+        <button class="button button-ghost">Continue with Facebook</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="eventModal" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <h3>Event Details</h3>
+      <p id="eventDetails">Event info</p>
+      <button class="button button-primary" id="closeEvent">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const header = document.getElementById("header");
+    const authButton = document.getElementById("authButton");
+    const authModal = document.getElementById("authModal");
+    const overlay = document.getElementById("overlay");
+    const loginSubmit = document.getElementById("loginSubmit");
+    const nameInput = document.getElementById("nameInput");
+    const themeToggle = document.getElementById("themeToggle");
+    const eventModal = document.getElementById("eventModal");
+    const eventDetails = document.getElementById("eventDetails");
+    const closeEvent = document.getElementById("closeEvent");
+    const testimonialTrack = document.getElementById("testimonialTrack");
+    let currentSlide = 0;
+    let isSignedIn = false;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    document.querySelectorAll(".fade-in").forEach((section) => observer.observe(section));
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 40) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    });
+
+    const openModal = () => {
+      authModal.classList.add("active");
+      overlay.classList.add("active");
+    };
+
+    const closeModal = () => {
+      authModal.classList.remove("active");
+      overlay.classList.remove("active");
+    };
+
+    authButton.addEventListener("click", () => {
+      if (isSignedIn) {
+        isSignedIn = false;
+        authButton.textContent = "Join Us";
+      } else {
+        openModal();
+      }
+    });
+
+    overlay.addEventListener("click", () => {
+      closeModal();
+      eventModal.classList.remove("active");
+      overlay.classList.remove("active");
+    });
+
+    loginSubmit.addEventListener("click", () => {
+      const name = nameInput.value.trim() || "Traveler";
+      isSignedIn = true;
+      authButton.textContent = `Sign Out · ${name}`;
+      closeModal();
+    });
+
+    document.querySelectorAll(".attraction").forEach((card) => {
+      card.addEventListener("click", () => {
+        card.classList.toggle("expanded");
+      });
+    });
+
+    document.querySelectorAll(".chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        document.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        const filter = chip.dataset.filter;
+        document.querySelectorAll(".tour-card").forEach((card) => {
+          const type = card.dataset.type;
+          card.style.display = filter === "all" || filter === type ? "grid" : "none";
+        });
+      });
+    });
+
+    document.querySelectorAll(".day").forEach((day) => {
+      day.addEventListener("click", () => {
+        eventDetails.textContent = day.dataset.event;
+        eventModal.classList.add("active");
+        overlay.classList.add("active");
+      });
+    });
+
+    closeEvent.addEventListener("click", () => {
+      eventModal.classList.remove("active");
+      overlay.classList.remove("active");
+    });
+
+    document.getElementById("prevTestimonial").addEventListener("click", () => {
+      currentSlide = Math.max(currentSlide - 1, 0);
+      testimonialTrack.style.transform = `translateX(-${currentSlide * 300}px)`;
+    });
+
+    document.getElementById("nextTestimonial").addEventListener("click", () => {
+      currentSlide = Math.min(currentSlide + 1, 2);
+      testimonialTrack.style.transform = `translateX(-${currentSlide * 300}px)`;
+    });
+
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.body.getAttribute("data-theme") === "dark";
+      document.body.setAttribute("data-theme", isDark ? "light" : "dark");
+    });
+
+    document.body.setAttribute("data-theme", "light");
+  </script>
+</body>
+</html>
